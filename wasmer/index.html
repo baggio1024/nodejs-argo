@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI前沿探索 | 科技博客首页</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-1: #58a6ff;
+            --accent-2: #bc8cff;
+            --border-color: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 导航栏设计 */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-1);
+        }
+
+        /* 英雄区块 (Hero Section) */
+        .hero {
+            padding: 100px 5%;
+            text-align: center;
+            background: radial-gradient(circle at top, rgba(88, 166, 255, 0.15), transparent 60%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+            color: #ffffff;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* 主体布局 */
+        .container {
+            padding: 60px 5%;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 50px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 文章网格 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+            border-color: rgba(88, 166, 255, 0.5);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        /* 模拟不同文章的封面配图 */
+        .card:nth-child(1) .card-img { background: linear-gradient(135deg, #1e3a8a, #0f172a); }
+        .card:nth-child(2) .card-img { background: linear-gradient(135deg, #064e3b, #022c22); }
+        .card:nth-child(3) .card-img { background: linear-gradient(135deg, #4c1d95, #2e1065); }
+        .card:nth-child(4) .card-img { background: linear-gradient(135deg, #7f1d1d, #450a0a); }
+        .card:nth-child(5) .card-img { background: linear-gradient(135deg, #0891b2, #164e63); }
+        .card:nth-child(6) .card-img { background: linear-gradient(135deg, #b45309, #78350f); }
+
+        .card-content {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 16px;
+            align-self: flex-start;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            transition: color 0.2s;
+        }
+
+        .card:hover .card-title {
+            color: var(--accent-1);
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #58a6ff;
+        }
+
+        /* 侧边栏 (Sidebar) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .widget {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .widget h3 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .subscribe-form input {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .subscribe-form input:focus {
+            border-color: var(--accent-1);
+        }
+
+        .subscribe-form button {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent-1);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .subscribe-form button:hover {
+            background: #408bef;
+        }
+
+        /* 标签云 */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag-cloud a {
+            font-size: 0.85rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tag-cloud a:hover {
+            border-color: var(--accent-2);
+            color: var(--accent-2);
+            background: rgba(188, 140, 255, 0.05);
+        }
+
+        /* 热门文章 */
+        .trend-list {
+            list-style: none;
+        }
+
+        .trend-list li {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trend-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .trend-list a {
+            font-size: 0.95rem;
+            color: #e5e5e5;
+            display: block;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            transition: color 0.2s ease;
+        }
+
+        .trend-list a:hover {
+            color: var(--accent-1);
+        }
+
+        .trend-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 5%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            margin-top: 60px;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NexusAI.</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">首页</a></li>
+                <li><a href="#">大模型</a></li>
+                <li><a href="#">行业应用</a></li>
+                <li><a href="#">AI 伦理</a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>探索人工智能的无尽前沿</h1>
+        <p>提供最新的人工智能科技动态、大模型原理解析以及行业落地的深度观察。与我们一同见证 AGI 时代的到来。</p>
+    </section>
+
+    <div class="container">
+        <!-- 左侧文章流 -->
+        <main>
+            <div class="section-title">
+                <span>最新发布</span>
+                <a href="#" style="font-size: 0.9rem; color: var(--accent-1);">查看全部 &rarr;</a>
+            </div>
+            
+            <div class="grid">
+                <!-- 文章卡片 1 -->
+                <article class="card">
+                    <div class="card-img">🧠</div>
+                    <div class="card-content">
+                        <span class="tag">大语言模型</span>
+                        <h2 class="card-title">GPT-5 传闻汇总：多模态推理的下一次飞跃？</h2>
+                        <p class="card-desc">深度解析近期关于下一代主流大模型的传闻特征，包括强化学习机制的改进、原生多模态视频支持的引入，以及这对未来应用开发可能产生的影响。</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #3b82f6;"></div>
+                                <span>TechResearcher</span>
+                            </div>
+                            <span>2 小时前</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 2 -->
+                <article class="card">
+                    <div class="card-img">🤖</div>
+                    <div class="card-content">
+                        <span class="tag">机器人技术</span>
+                        <h2 class="card-title">Figure 01 接入视觉大模型：具身智能的新里程碑</h2>
+                        <p class="card-desc">人形机器人在工业和家庭场景中的测试已取得显著进展，视觉-语言-动作（VLA）端到端模型的部署正在重新定义机器人的泛化能力。</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #10b981;"></div>
+                                <span>RoboticsWeekly</span>
+                            </div>
+                            <span>昨天</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 3 -->
+                <article class="card">
+                    <div class="card-img">⚡</div>
+                    <div class="card-content">
+                        <span class="tag">AI 芯片</span>
+                        <h2 class="card-title">NVIDIA 新一代架构解析，算力瓶颈如何突破</h2>
+                        <p class="card-desc">随着模型参数量向万亿级别迈进，芯片的显存带宽和集群互联能力成为核心掣肘。本文深度解读最新的算力集群架构创新。</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #8b5cf6;"></div>
+                                <span>SiliconInsights</span>
+                            </div>
+                            <span>2 天前</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 4 -->
+                <article class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-content">
+                        <span class="tag">生成式 AI</span>
+                        <h2 class="card-title">Sora 及后续者：物理世界的 AI 模拟器</h2>
+                        <p class="card-desc">视频生成模型不再仅仅是"生成像素"，而正在学习三维空间的物理规律。我们将探讨这种基于扩散和 Transformer 的新范式。</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #ef4444;"></div>
+                                <span>CreativeAI</span>
+                            </div>
+                            <span>3 天前</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 5 -->
+                <article class="card">
+                    <div class="card-img">🔬</div>
+                    <div class="card-content">
+                        <span class="tag">AI for Science</span>
+                        <h2 class="card-title">AlphaFold 3 来了：重塑分子生物学的预测边界</h2>
+                        <p class="card-desc">从蛋白质拓展到 DNA、RNA 及配体分子，深度学习正在以前所未有的速度推动靶向药物研发的进程。</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #06b6d4;"></div>
+                                <span>BioTechNow</span>
+                            </div>
+                            <span>4 天前</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 6 -->
+                <article class="card">
+                    <div class="card-img">⚖️</div>
+                    <div class="card-content">
+                        <span class="tag">AI 伦理</span>
+                        <h2 class="card-title">欧盟 AI 法案正式生效，开源模型走向何方？</h2>
+                        <p class="card-desc">全球首份全面的 AI 监管法案出台，它将如何影响欧洲及全球的 AI 创新步伐？开源社区将面临怎样的合规挑战？</p>
+                        <div class="card-meta">
+                            <div class="author">
+                                <div class="author-avatar" style="background: #f59e0b;"></div>
+                                <span>Law & Tech</span>
+                            </div>
+                            <span>一周前</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <!-- 右侧边栏 -->
+        <aside class="sidebar">
+            <!-- 订阅模块 -->
+            <div class="widget">
+                <h3>📮 前沿简报</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">
+                    每周为您推送精选的 AI 深度文章与行业动态。
+                </p>
+                <form class="subscribe-form" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="输入您的邮箱地址..." required>
+                    <button type="submit">立即订阅</button>
+                </form>
+            </div>
+
+            <!-- 热门推荐 -->
+            <div class="widget">
+                <h3>🔥 本周热读</h3>
+                <ul class="trend-list">
+                    <li>
+                        <a href="#">为何说 RAG（检索增强生成）是当前企业落地的最佳实践？</a>
+                        <div class="trend-meta">阅读量 12.5k</div>
+                    </li>
+                    <li>
+                        <a href="#">详解 MoE（混合专家模型）架构及其训练成本优势</a>
+                        <div class="trend-meta">阅读量 10.2k</div>
+                    </li>
+                    <li>
+                        <a href="#">Agentic AI 的崛起：从对话助手到自主智能体</a>
+                        <div class="trend-meta">阅读量 9.8k</div>
+                    </li>
+                    <li>
+                        <a href="#">开源与闭源之争：Llama 3 如何改变商业格局</a>
+                        <div class="trend-meta">阅读量 8.4k</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 标签云 -->
+            <div class="widget">
+                <h3>🏷️ 探索前沿标签</h3>
+                <div class="tag-cloud">
+                    <a href="#">#LLM</a>
+                    <a href="#">#Prompt 提示词</a>
+                    <a href="#">#扩散模型</a>
+                    <a href="#">#自动驾驶</a>
+                    <a href="#">#多模态</a>
+                    <a href="#">#Transformers</a>
+                    <a href="#">#AI 代理</a>
+                    <a href="#">#算力集群</a>
+                    <a href="#">#CUDA</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 NexusAI Tech Blog. 致力于客观、硬核的人工智能商业与技术观察。</p>
+    </footer>
+
+</body>
+</html>
